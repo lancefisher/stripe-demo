@@ -1,4 +1,5 @@
 var React = require('react');
+var request = require('superagent');
 
 var LineItem = React.createClass({
   render: function() {
@@ -28,18 +29,30 @@ module.exports = React.createClass({
   },
 
   handleStripeToken: function(token) {
-    console.log('token', token);
+    //console.log('token', token);
+
+    var id = this.props.model.invoiceId;
+    request
+      .post('/api/invoice/' + id + '/payment')
+      .send(token)
+      .end(function(err, res) {
+        if (err) return console.error(err);
+
+        console.log('response from payment: ', res.body);
+      });
   },
 
   render: function() {
-    console.debug('render. model:', this.props.model);
-
     this._stripeCheckout = StripeCheckout.configure({
       key: 'pk_test_F9yW3lJUdPOAW04nv60vEeQM',
       image: '/img/mcs-logo-128x128.png',
       locale: 'auto',
       token: this.handleStripeToken
     });
+
+    // Just for testing in the console.
+    // REMOVE BEFORE PRODUCTION!!!!!1
+    window.handleStripeToken = this.handleStripeToken;
 
     var invoice = this.props.model;
     var invoiceId = invoice.invoiceId;
