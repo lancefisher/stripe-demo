@@ -7,6 +7,7 @@ exports.register = function() {
     invoiceId: String,
     status: String,
     paidDate: Date,
+    stripeChargeId: String,
     lineItems: [{
       description: String,
       priceInCents: Number,

@@ -1,4 +1,5 @@
 var React = require('react');
+var PayButton = require('./PayButton');
 
 var LineItem = React.createClass({
   render: function() {
@@ -15,6 +16,10 @@ var LineItem = React.createClass({
 });
 
 module.exports = React.createClass({
+  handlePaid: function(res) {
+    this.props.store.refresh(res.body.invoiceId);
+  },
+
   render: function() {
     var invoice = this.props.model;
     var invoiceId = invoice.invoiceId;
@@ -38,6 +43,21 @@ module.exports = React.createClass({
     var phone = user.phone;
 
     var description = 'Invoice #' + invoiceId
+
+    var payment;
+    if (invoice.status === 'paid') {
+      payment = <div>Payment received. Thanks!</div>
+    } else {
+      payment = (
+        <PayButton
+          amount={invoice.total}
+          name="Lance Fisher"
+          description={description}
+          invoiceId={invoiceId}
+          onPaid={this.handlePaid}
+        ></PayButton>
+      )
+    }
 
     return (
       <div>
@@ -71,6 +91,9 @@ module.exports = React.createClass({
           </tfoot>
         </table>
 
+        <div>
+          {payment}
+        </div>
       </div>
     );
   }
