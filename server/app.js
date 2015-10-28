@@ -14,9 +14,11 @@ app.get('/api/invoice/:id', function(req, res) {
 
     Invoice.createRandom(id, function(err, invoice) {
       return res.send(invoice);
-    })
+    });
 
   });
 });
+
+
 
 module.exports = app;

@@ -55,6 +55,7 @@
     "mongodb": "^2.0.46",
     "mongoose": "^4.2.2",
     "react": "^0.13.0",
+    "stripe": "^4.0.0",
     "superagent": "^1.4.0"
   }
 }
