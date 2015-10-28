@@ -22,6 +22,10 @@ InvoiceStore.prototype = {
       });
   },
 
+  refresh: function(id) {
+    this.find(id);
+  }
+
 };
 
 module.exports = InvoiceStore;
